@@ -12,6 +12,6 @@ Question2: Question2.c
 runq1: Question1
 	./Question1 sample4_in.txt
 runq2: Question2
-	./Question3
+	./Question2
 clean:
 	rm -f $(OBJFILES) $(TARGET) *~ 
