@@ -1,8 +1,8 @@
 CC = gcc
 CFLAGS = -Werror -Wall -g -std=gnu99
 LDFLAGS = -lrt -lpthread
-TARGET = Question2 Question3 
-OBJFILES = Question2.o Question3.o 
+TARGET = Question1 Question2 
+OBJFILES = Question1.o Question2.o 
 all: $(TARGET)
 Question1: Question1.c
 	$(CC) $(CFLAGS) -o Question1 Question1.c $(LDFLAGS)
