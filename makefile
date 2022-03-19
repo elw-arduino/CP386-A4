@@ -10,7 +10,7 @@ Question2: Question2.c
 	$(CC) $(CFLAGS) -o Question2 Question2.c $(LDFLAGS)
 
 runq1: Question1
-	./Question1 sample4_in.txt
+	./Question1 10 5 7 8
 runq2: Question2
 	./Question2
 clean:
