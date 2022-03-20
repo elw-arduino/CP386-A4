@@ -29,7 +29,7 @@ int columns = 0;  // number of resources
 
 int readfile(char *fileName);
 
-//looks through sample file to determine number of customers on file
+
 int customers_on_file(char *fname){
         
         FILE *file = fopen(fname,"r");
@@ -51,7 +51,6 @@ int customers_on_file(char *fname){
         return count;
 }
 
-//gets the number of different resources, or the amount of columns in later matrix
 int resource_num(char *fname){
         
         int rescnum = 0;
@@ -74,7 +73,7 @@ int resource_num(char *fname){
         return rescnum;
 }
 
-//sets up and adds values to the allocation matrix
+
 void setup_allocation(int allocation[rows][columns], int rows, int columns){
         
         for (int x = 0; x < rows; x++){
@@ -86,7 +85,7 @@ void setup_allocation(int allocation[rows][columns], int rows, int columns){
         }
         
 }
-//sets up and adds values to the need matrix
+
 void setup_need(int need[rows][columns], int allocation[rows][columns], int max[rows][columns], int rows, int columns){
         
         for (int x = 0; x < rows; x++){
@@ -158,6 +157,12 @@ int main(int argc, char *argv[]){
         fclose(file);
         printf("\n");
         
+
+        //AVAILABLE setup
+        int *available = (int *)malloc(columns * sizeof(int)); 
+                for (int i = 0; i < columns; i++){
+                        available[i] = atoi(argv[i + 1]); // populates array with the values in command line
+                }
        
         
         //ALLOCATION matrix setup
@@ -167,5 +172,17 @@ int main(int argc, char *argv[]){
         //NEED matrix setup
         int need[rows][columns];
         setup_need(need, allocation, max,rows,columns);
-             
+        
+        
+        int *ptr_available = &available[0];
+        int *ptr_max = &max[0][0];
+        int *ptr_allocation = &allocation[0][0];
+        int *ptr_need = &need[0][0];
+        
+
+
+        
+
+        
+        
 }
