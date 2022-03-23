@@ -14,6 +14,22 @@ Repository:
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
+/*
+Author:  Brian Ha - 190376250 - haxx6250@mylaurier.ca - Github: https://github.com/Reprodux 
+         Eric Wildfong, 190559940 - wild9940@mylaurier.ca - Github: https://github.com/elw-arduino
+Repository:
+         https://github.com/elw-arduino/CP386-A4
+
+ -------------------------------------
+ File:    Question1.c
+ Description: Example of Banker's Algorithm
+ Version  3/18/2022
+ -------------------------------------
+ */
+
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include <pthread.h>
 #include <sys/stat.h>
@@ -28,6 +44,11 @@ int rows = 0; // number of customers
 int columns = 0;  // number of resources
 
 int readfile(char *fileName);
+int *ptr_available;  // represents the number of available resources of each type
+int *ptr_max;        // matrix representing max num of instances of each resc process can request (m x n)
+int *ptr_allocation; // matrix representing the num of resources of each type currently allocated to process (m x n)
+int *ptr_need;       // represents the remaining resource needs of each process (m x n)
+
 
 
 int customers_on_file(char *fname){
@@ -95,6 +116,140 @@ void setup_need(int need[rows][columns], int allocation[rows][columns], int max[
                 
         }
 
+}
+
+
+
+// deals with determining resource requesting
+int valid_resc_request(int args[]){
+        bool valid;
+        bool safe;
+        int *temp_avail = ptr_available; 
+        int *temp_alloc = ptr_allocation; 
+        int *temp_need = ptr_need;       
+
+        int customer= args[0];     // first number in the command represents the customer number
+        int request[columns];             // resources from the command line
+
+        //gets the resources from customer
+        for (int i = 0; i < columns; i++){
+                request[i] = args[i + 1];
+        }
+
+        for (int i = 0; i < columns && valid; i++){
+                //request[i] recived from need[customer][i]
+                valid = request[i] <= *(ptr_need + (customer * columns + i));
+        }
+        //checks if resource exceeds max
+        if (valid == true)
+        {
+                for (int i = 0; i < columns && valid; i++){
+                //request[i] recived from available[i]
+                valid = request[i] <= *(ptr_available + i); // request[i <= available[i]
+                }
+                if (valid == true){
+                        for (int i = 0; i < columns; i++){
+                                ptr_available[i] -= request[i];
+                                *((ptr_allocation + customer * columns) + i) += request[i];
+
+                                *((ptr_need + customer * columns) + i) -= request[i];
+
+                                
+                        }
+                //code that determines the safe state
+                int work[columns];
+                for (int i = 0; i < columns; i++) {
+                        work[i] = *(temp_avail + i); 
+                }
+                printf("\n");
+
+                bool finish[columns];
+                for (int i = 0; i < columns; i++){
+                        finish[i] = false;
+                }
+
+                int sequence[rows];
+
+                int index = 0;
+                while (index < rows){
+                        bool resc = false;
+                        for (int i = 0; i < rows; i++){
+                                if (finish[i] == false){
+                                        int j = 0;
+                                        for (j = 0; j < columns; j++){
+                                        if (*((temp_need + i * columns) + j) > work[j]){
+                                                break;
+                                        }
+                                        }       
+                                        if (j == columns){
+                                        for (int y = 0; y < columns; y++){
+                                                work[y] += *((temp_alloc + i * columns) + y);
+                                        }
+                                        finish[i] = true;
+                                        resc = true;
+                                        sequence[index++] = i;
+                                        }
+                                }       
+                        }
+                                if (resc == false){
+                                        printf("System is not in safe state\n");
+                                safe = false;
+                                }
+                }
+                
+                if(safe){
+                        printf("State is safe, and request is satisfied:\n");
+                        //confirm changes
+                        ptr_available = temp_avail;
+                        ptr_allocation = temp_alloc;
+                        ptr_need = temp_need;
+                        return 1;
+                }
+                //danger(probably)
+                else{
+                        return 0; 
+                }
+                }
+                else{
+                return 0; // not enough resources
+                }
+        }
+        else{
+                return 0; 
+        }
+}
+
+//deals with resource releasing
+int resc_release(int args[]){
+        int i;
+        int customer = args[0];
+        int rescs[columns];
+        bool valid = true;
+
+        for (i = 0; i < columns; i++){
+                rescs[i] = args[i + 1];
+        }
+
+        //ensures no accidental duplication
+        for (i = 0; i < columns; i++){
+                if (rescs[i] > *((ptr_allocation + customer * columns) + i)){
+                        valid = false;
+                }
+                if (valid == true){
+                        for (i = 0; i < columns; i++){
+                        ptr_available[i] += rescs[i];
+                        *((ptr_allocation + customer * columns) + i) -= rescs[i];
+                        *((ptr_need + customer * columns) + i) += rescs[i]; 
+
+                }
+                return 1;
+                }
+                else{
+                return 0; // release not allowed
+                }
+        }
+
+        return 0;
 }
 
 
@@ -179,10 +334,6 @@ int main(int argc, char *argv[]){
         int *ptr_allocation = &allocation[0][0];
         int *ptr_need = &need[0][0];
         
-
-
-        
-
-        
+ 
         
 }
