@@ -7,23 +7,7 @@ Repository:
  -------------------------------------
  File:    Question1.c
  Description: Example of Banker's Algorithm
- Version  3/18/2022
- -------------------------------------
- */
-
-#include <unistd.h>
-#include <stdio.h>
-#include <stdlib.h>
-/*
-Author:  Brian Ha - 190376250 - haxx6250@mylaurier.ca - Github: https://github.com/Reprodux 
-         Eric Wildfong, 190559940 - wild9940@mylaurier.ca - Github: https://github.com/elw-arduino
-Repository:
-         https://github.com/elw-arduino/CP386-A4
-
- -------------------------------------
- File:    Question1.c
- Description: Example of Banker's Algorithm
- Version  3/18/2022
+ Version  3/24/2022
  -------------------------------------
  */
 
@@ -40,16 +24,24 @@ Repository:
 
 
 
-int rows = 0; // number of customers
-int columns = 0;  // number of resources
-
-int readfile(char *fileName);
+int rows; // number of customers
+int columns;  // number of resources
 int *ptr_available;  // represents the number of available resources of each type
 int *ptr_max;        // matrix representing max num of instances of each resc process can request (m x n)
 int *ptr_allocation; // matrix representing the num of resources of each type currently allocated to process (m x n)
 int *ptr_need;       // represents the remaining resource needs of each process (m x n)
+int *temp_avail; 
+int *temp_alloc; 
+int *temp_need; 
 
+typedef struct thread{ //represents a single thread, you can add more members if required
 
+	char tid[4]; //id of the thread as read from file
+	unsigned int startTime;
+	int state;
+	pthread_t handle;
+	int retVal;
+} Thread;
 
 int customers_on_file(char *fname){
         
@@ -120,16 +112,18 @@ void setup_need(int need[rows][columns], int allocation[rows][columns], int max[
 
 
 
+
 // deals with determining resource requesting
 int valid_resc_request(int args[]){
         bool valid;
         bool safe;
-        int *temp_avail = ptr_available; 
-        int *temp_alloc = ptr_allocation; 
-        int *temp_need = ptr_need;       
 
         int customer= args[0];     // first number in the command represents the customer number
         int request[columns];             // resources from the command line
+        //temp ptrs in the case that upcoming changes lead to an unsafe state
+        temp_avail = ptr_available; 
+        temp_alloc = ptr_allocation; 
+        temp_need = ptr_need;   
 
         //gets the resources from customer
         for (int i = 0; i < columns; i++){
@@ -137,78 +131,81 @@ int valid_resc_request(int args[]){
         }
 
         for (int i = 0; i < columns && valid; i++){
-                //request[i] recived from need[customer][i]
-                valid = request[i] <= *(ptr_need + (customer * columns + i));
+                valid = request[i] <= *(temp_need + (customer * columns + i));
         }
+
+        
         //checks if resource exceeds max
         if (valid == true)
         {
                 for (int i = 0; i < columns && valid; i++){
                 //request[i] recived from available[i]
-                valid = request[i] <= *(ptr_available + i); // request[i <= available[i]
+                valid = request[i] <= *(temp_need + i); // request[i <= available[i]
                 }
                 if (valid == true){
                         for (int i = 0; i < columns; i++){
-                                ptr_available[i] -= request[i];
-                                *((ptr_allocation + customer * columns) + i) += request[i];
+                                temp_avail[i] -= request[i];
+                                *((temp_alloc + customer * columns) + i) += request[i];
 
-                                *((ptr_need + customer * columns) + i) -= request[i];
+                                *((temp_need + customer * columns) + i) -= request[i];
 
                                 
+                        }    
+                        //code that determines the safe state
+                        int work[columns];
+                        for (int i = 0; i < columns; i++) {
+                                work[i] = *(temp_avail + i); 
                         }
-                //code that determines the safe state
-                int work[columns];
-                for (int i = 0; i < columns; i++) {
-                        work[i] = *(temp_avail + i); 
-                }
-                printf("\n");
+                    
 
-                bool finish[columns];
-                for (int i = 0; i < columns; i++){
-                        finish[i] = false;
-                }
+                        bool finish[columns];
+                        for (int i = 0; i < columns; i++){
+                                finish[i] = false;
+                        }
 
-                int sequence[rows];
+                        
 
-                int index = 0;
-                while (index < rows){
-                        bool resc = false;
-                        for (int i = 0; i < rows; i++){
-                                if (finish[i] == false){
-                                        int j = 0;
-                                        for (j = 0; j < columns; j++){
-                                        if (*((temp_need + i * columns) + j) > work[j]){
-                                                break;
-                                        }
+                        int index = 0;
+                        while (index < rows){
+                                bool resc = false;
+                                for (int i = 0; i < rows; i++){
+                                        if (finish[i] == false){
+                                                int j = 0;
+                                                for (j = 0; j < columns; j++){
+                                                if (*((temp_need + i * columns) + j) > work[j]){
+                                                        break;
+                                                }
+                                                }       
+                                                if (j == columns){
+                                                for (int y = 0; y < columns; y++){
+                                                        work[y] += *((temp_alloc + i * columns) + y);
+                                                }
+                                                finish[i] = true;
+                                                resc = true;
+                                                index++;
+                                                
+                                                }
                                         }       
-                                        if (j == columns){
-                                        for (int y = 0; y < columns; y++){
-                                                work[y] += *((temp_alloc + i * columns) + y);
-                                        }
-                                        finish[i] = true;
-                                        resc = true;
-                                        sequence[index++] = i;
-                                        }
-                                }       
-                        }
-                                if (resc == false){
-                                        printf("System is not in safe state\n");
-                                safe = false;
                                 }
-                }
-                
-                if(safe){
-                        printf("State is safe, and request is satisfied:\n");
-                        //confirm changes
-                        ptr_available = temp_avail;
-                        ptr_allocation = temp_alloc;
-                        ptr_need = temp_need;
-                        return 1;
-                }
-                //danger(probably)
-                else{
-                        return 0; 
-                }
+                                        if (resc == false){
+                                                printf("System is not in safe state\n");
+                                                safe = false;
+                                        }
+                        }
+                        
+                        if(safe){
+                                printf("State is safe, and request is satisfied:\n");
+                                //confirm changes
+                                ptr_available = temp_avail;
+                                ptr_allocation = temp_alloc;
+                                ptr_need = temp_need;
+                                
+                                return 1;
+                        }
+                        //danger(probably)
+                        else{
+                                return 0; 
+                        }
                 }
                 else{
                 return 0; // not enough resources
@@ -218,6 +215,77 @@ int valid_resc_request(int args[]){
                 return 0; 
         }
 }
+
+
+
+void *execute_thread(){
+        char order[100];
+        int rescs[columns];
+        int process[10];
+        int index = 0;
+        int current;
+        printf("Safe Sequence is: ");
+        fgets(order, 100, stdin);
+        printf("\n");
+        char *token = strtok(order, " ");
+
+        while(token != NULL){
+                process[index] = atoi(token);
+                token = strtok(NULL, " ");
+                index += 1;
+
+        }
+
+        for (int i = 0; i < index; i++){
+                printf("--> Customer/Thread %d\n", process[i]);
+                printf("\tAllocated resources: ");
+                for (int x = 0; x < columns; x++){
+                        current =  ptr_allocation[process[i] * columns + x];
+                        printf("%d ", current); 
+                        rescs[x] = current;
+                }
+        printf("\n\tNeeded: ");
+        for (int r = 0; r < columns; r++){
+                current = ptr_need[process[i] * columns + r];
+                printf("%d ", current);
+        }
+        printf("\n\tAvailable: ");
+        for (int r = 0; r < columns; r++){
+                printf("%d ", ptr_available[r]);
+        }
+        printf("\n");
+
+        
+
+        printf("\tThread has started\n");
+       
+        printf("\tThread has finished\n");
+       
+        printf("\tThread is releasing resources\n");
+
+        for (int w = 0; w < columns; w++)
+        {
+            ptr_available[w] += rescs[w];
+            *((ptr_allocation+ process[i] * columns) + w) -= rescs[w];
+            *((ptr_need + process[i] * columns) + w) += rescs[w]; //Resources get released and added back to available
+
+        }
+       
+
+        printf("\tNew Available: ");
+        for (int r = 0; r < columns; r++){
+            printf("%d ", ptr_available[r]);
+        }
+        printf("\n");
+
+    }
+    return NULL;
+
+
+        
+}
+
+
 
 //deals with resource releasing
 int resc_release(int args[]){
@@ -254,16 +322,17 @@ int resc_release(int args[]){
 
 
 int main(int argc, char *argv[]){
-        int columns = resource_num("sample4_in.txt"); //gets the number of different resources, or the amount of columns in later matrix
-        int rows = customers_on_file("sample4_in.txt"); //looks through sample file to determine number of customers on file
-        
-
-        if(argc < columns + 1){
-                printf("lack of command line args\n");
-                return 0;
-        }
+        columns = resource_num("sample4_in.txt"); //gets the number of different resources, or the amount of columns in later matrix
+        rows = customers_on_file("sample4_in.txt"); //looks through sample file to determine number of customers on file
+        int max[rows][columns];
+        int allocation[rows][columns];
+        int need[rows][columns];
         if(argc > columns + 1){
                 printf("excess amount of command line args\n");
+                return 0;
+        }
+        if(argc < columns + 1){
+                printf("lack of command line args\n");
                 return 0;
         }
         for (int i = 1; i < argc; i++)
@@ -287,7 +356,7 @@ int main(int argc, char *argv[]){
 
         //MAX matrix setup
         printf("Maximum resources from file:\n");
-        int max[rows][columns];
+        
         FILE *file = fopen("sample4_in.txt", "r");
         char *token;
         int x = 0;
@@ -318,22 +387,19 @@ int main(int argc, char *argv[]){
                 for (int i = 0; i < columns; i++){
                         available[i] = atoi(argv[i + 1]); // populates array with the values in command line
                 }
-       
+        
         
         //ALLOCATION matrix setup
-        int allocation[rows][columns];
         setup_allocation(allocation,rows,columns);
 
         //NEED matrix setup
-        int need[rows][columns];
         setup_need(need, allocation, max,rows,columns);
         
         
-        int *ptr_available = &available[0];
-        int *ptr_max = &max[0][0];
-        int *ptr_allocation = &allocation[0][0];
-        int *ptr_need = &need[0][0];
+        ptr_available = &available[0];
+        ptr_max = &max[0][0];
+        ptr_allocation = &allocation[0][0];
+        ptr_need = &need[0][0];
         
- 
         
 }
