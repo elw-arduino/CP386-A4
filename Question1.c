@@ -127,11 +127,11 @@ int valid_resc_request(int args[]){
 
         //gets the resources from customer
         for (int i = 0; i < columns; i++){
-                request[i] = args[i + 1];
+            request[i] = args[i + 1];
         }
 
         for (int i = 0; i < columns && valid; i++){
-                valid = request[i] <= *(temp_need + (customer * columns + i));
+            valid = request[i] <= *(temp_need + (customer * columns + i));
         }
 
         
@@ -203,7 +203,7 @@ int valid_resc_request(int args[]){
                         }
                         //danger(probably)
                         else{
-                                return 0; 
+                            return 0; 
                         }
                 }
                 else{
@@ -409,9 +409,9 @@ int main(int argc, char *argv[]){
                 token = strtok(NULL, " ");
                 int j = 0;
                 while (token != NULL){
-                args[j] = atoi(token);
-                token = strtok(NULL, " ");
-                j += 1;
+					args[j] = atoi(token);
+					token = strtok(NULL, " ");
+					j += 1;
                 }
 
                 //in the case that capitals are present
@@ -484,3 +484,10 @@ int main(int argc, char *argv[]){
  
         
 }
+
+
+
+
+
+
+
