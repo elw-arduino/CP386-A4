@@ -115,8 +115,8 @@ void setup_need(int need[rows][columns], int allocation[rows][columns], int max[
 
 // deals with determining resource requesting
 int valid_resc_request(int args[]){
-        bool valid;
-        bool safe;
+        bool valid = true;
+        bool safe = true;
 
         int customer= args[0];     // first number in the command represents the customer number
         int request[columns];             // resources from the command line
@@ -189,6 +189,7 @@ int valid_resc_request(int args[]){
                                         if (resc == false){
                                                 printf("System is not in safe state\n");
                                                 safe = false;
+												break;
                                         }
                         }
                         
