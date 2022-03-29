@@ -27,7 +27,41 @@ struct Block
 
 struct Block *head;
 
-int main(int argc, char *argv[]){
+void allocate(char pid[5], int requested) {
+	struct Block *temp = head;
+	int smallestSize = 999999;
+	struct Block *smallestBlock = NULL;
+	while(temp != NULL) {
+		if(strcmp(temp->pid,"") == 0 && temp->size < smallestSize && temp->size >= requested) {
+			smallestSize = temp->size; // Update the size
+			smallestBlock = temp; // Maintain reference to the block for later
+		}
+		temp = temp->next;
+	}
+	if(smallestBlock != NULL) {
+		// Free block found
+		int free = smallestBlock->size - requested;
+		smallestBlock->size = requested;
+		strcpy(smallestBlock->pid,pid);
+		if(free > 0) {
+			// Block is bigger than requested
+			struct Block *newBlock = (struct Block *)malloc(sizeof(struct Block));
+			newBlock->end_address = smallestBlock->end_address; // Copy End address
+			smallestBlock->end_address = smallestBlock->start_address + requested; // Update end address of old block
+			newBlock->start_address = smallestBlock->end_address + 1; // Set start address of new block
+			newBlock->size = free;
+			newBlock->next = smallestBlock->next; // Maintain reference to next block in list
+			smallestBlock->next = newBlock; // Insert new block
+		}
+		printf("Successfully allocated %i to process %s",requested,pid);
+	}
+	else {
+		// No room
+		printf("No hole of sufficient size");
+	}
+}
+
+int main(int argc, char *argv[]) {
 	if(argc < 2){
 		printf("Missing Size\n");
 		return 1;
@@ -41,5 +75,4 @@ int main(int argc, char *argv[]){
 	head->size = size;
 	head->start_address = 0;
 	head->end_address = size-1;
-	printf("%i\n",strcmp(head->pid,"") == 0);
 }
