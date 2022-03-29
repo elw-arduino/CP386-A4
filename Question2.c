@@ -10,6 +10,22 @@ Repository:
  Version  3/24/2022
  -------------------------------------
  */
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <ctype.h>
+#include <string.h>
+
+struct Block
+{
+    int size; //size of block
+    int start_address;
+    int end_address;
+    struct Block *next;
+    char process_id[5];
+};
+
+struct Block *head;
 
 int main(int argc, char *argv[]){
 	
