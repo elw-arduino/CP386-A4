@@ -3,10 +3,27 @@
 ## Introduction and Features
 This repository demonstrates the use of 2 algorithms, Banker's Algorithm (demonstrated in Question1.c) and the Best-Fit algorithm (demonstrated in Question2.c)
 
-**Features:**
-  - Algorithms have interactive use, with the makefile included for custom test cases and easy compling
-  - Demonstrates 2 important OS algorithms
-  - Use of Linux with GCC required
+**Features (Question1.c):**
+
+**RQ: Request Resource** - Requests resources
+
+```RQ [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource 4] ```
+
+**RL: Release Resource** - Release resources, data structures updated accordingly
+
+```RL [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource 4] ```
+
+**Status: Status** - Displays status, prints all arrays and matrices used (available, maximum, allocation, and need)
+```Status```
+
+**Run: Run** - Executes customers as threads in a safe sequence. Each thread requests the resources it needs, releases them, and lets the next thread in the sequence run.
+
+```Run```
+
+**Exit: Exits Program** - Exits the loop and the program
+
+```Exit```
+
 
 ## Makefile
 
