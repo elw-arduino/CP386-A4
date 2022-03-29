@@ -50,7 +50,7 @@ clean:
 ```
 *Important to note that running Question1.c using this makefile will use the testcase ``` 10 5 7 8 ```. Edit that if you wish to use your own*
 
-## Screenshots
+## Screenshots and Tests
 
 **Question1.c (Banker's Algorithm)**
 - Below will demonstrate output for a set of commands, following those in the sample output seen in the assignment document
@@ -73,4 +73,21 @@ Run - Run:
 
 **Question2.c (Best-Fit Algorithm)**
 
+## Individual Contribution
+
+**Question1.c (Banker's Algorithm)**
+
+```int customers_on_file(char *fname) ```
+
+```void setup_allocation(int allocation[rows][columns], int rows, int columns) ```
+
+```void setup_need(int need[rows][columns], int allocation[rows][columns], int max[rows][columns], int rows, int columns)```
+
+```int valid_resc_request(int args[]) ```
+
+```void *execute_thread() ```
+
+```int resc_release(int args[]) ```
+
+```int main(int argc, char *argv[]) ```
 
