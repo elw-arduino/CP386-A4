@@ -7,7 +7,7 @@ Repository:
  -------------------------------------
  File:    Question2.c
  Description: Example of Best-Fit Algo
- Version  3/24/2022
+ Version  3/29/2022
  -------------------------------------
  */
 #include <stdio.h>
@@ -22,11 +22,24 @@ struct Block
     int start_address;
     int end_address;
     struct Block *next;
-    char process_id[5];
+    char pid[5]; // Process id
 };
 
 struct Block *head;
 
 int main(int argc, char *argv[]){
-	
+	if(argc < 2){
+		printf("Missing Size\n");
+		return 1;
+	}
+	int size = atoi(argv[1]);
+	if(size <= 0) {
+		printf("Size must be greater than 0\n");
+		return 1;
+	}
+	head = (struct Block *)malloc(sizeof(struct Block));
+	head->size = size;
+	head->start_address = 0;
+	head->end_address = size-1;
+	printf("%i\n",strcmp(head->pid,"") == 0);
 }
