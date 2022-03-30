@@ -29,6 +29,10 @@ struct Block
 struct Block *head;
 
 void allocate(char pid[5], int requested) {
+	if(requested <= 0) {
+		printf("Size must be positive\n");
+		return;
+	}
 	struct Block *temp = head;
 	int smallestSize = 999999;
 	struct Block *smallestBlock = NULL;
@@ -106,17 +110,17 @@ int main(int argc, char *argv[]) {
 	char cmd[100];
 	bool running = true;
 	while (running){
-		printf("Enter Command: ");
+		printf("command>");
 		fgets(cmd, 100, stdin);
-		// char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
-		// int args[4];
-		// token = strtok(NULL, " ");
-		// int j = 0;
-		// while (token != NULL){
-			// args[j] = atoi(token);
-			// token = strtok(NULL, " ");
-			// j += 1;
-		// }
+		char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
+		char args[3];
+		token = strtok(NULL, " ");
+		int j = 0;
+		while (token != NULL){
+			args[j] = tolower(*token);
+			token = strtok(NULL, " ");
+			j += 1;
+		}
 		//Remove Caps
 		for (char *cmd_lower = cmd; *cmd_lower; cmd_lower++){
 			*cmd_lower = tolower(*cmd_lower);
@@ -127,7 +131,9 @@ int main(int argc, char *argv[]) {
 			
 		}
 		else if (strstr(cmd, "rq") != NULL) {
-			
+			if(strcmp(args[2], "b") == 0) {
+				allocate(args[0],atoi(args[1]));
+			}
 		}
 		else if (strstr(cmd, "rl") != NULL) {
 			
