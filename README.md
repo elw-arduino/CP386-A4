@@ -77,17 +77,17 @@ Run - Run:
 
 **Question1.c (Banker's Algorithm)**
 
-```int customers_on_file(char *fname) ```
+```int customers_on_file(char *fname) ``` Brian
 
-```void setup_allocation(int allocation[rows][columns], int rows, int columns) ```
+```void setup_allocation(int allocation[rows][columns], int rows, int columns) ``` Brian 
 
-```void setup_need(int need[rows][columns], int allocation[rows][columns], int max[rows][columns], int rows, int columns)```
+```void setup_need(int need[rows][columns], int allocation[rows][columns], int max[rows][columns], int rows, int columns)``` Brian
 
-```int valid_resc_request(int args[]) ```
+```int valid_resc_request(int args[]) ``` Brian, Eric
 
-```void *execute_thread() ```
+```void *execute_thread() ``` Brian, Eric
 
-```int resc_release(int args[]) ```
+```int resc_release(int args[]) ``` Brian, Eric
 
-```int main(int argc, char *argv[]) ```
+```int main(int argc, char *argv[]) ``` Brian, Eric
 
