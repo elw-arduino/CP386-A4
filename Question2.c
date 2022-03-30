@@ -7,7 +7,7 @@ Repository:
  -------------------------------------
  File:    Question2.c
  Description: Example of Best-Fit Algo
- Version  3/29/2022
+ Version  3/30/2022
  -------------------------------------
  */
 #include <stdio.h>
@@ -54,18 +54,18 @@ void allocate(char pid[5], int requested) {
 			newBlock->next = smallestBlock->next; // Maintain reference to next block in list
 			smallestBlock->next = newBlock; // Insert new block
 		}
-		printf("Successfully allocated %i to process %s",requested,pid);
+		printf("Successfully allocated %i to process %s\n",requested,pid);
 	}
 	else {
 		// No room
-		printf("No hole of sufficient size");
+		printf("No hole of sufficient size\n");
 	}
 }
 
 void freeMemory(char pid[5]) {
 	struct Block *previous = NULL;
 	struct Block *temp = head;
-	printf("releasing memory for process %s",pid);
+	printf("releasing memory for process %s\n",pid);
 	while(temp != NULL) {
 		if(strcmp(temp->pid,pid) == 0 ) {
 			// Block allocated to the process
@@ -84,7 +84,7 @@ void freeMemory(char pid[5]) {
 			temp = temp->next; // Look at next block
 		}
 	}
-	printf("Successfully released memory for process %s",pid);
+	printf("Successfully released memory for process %s\n",pid);
 }
 
 int main(int argc, char *argv[]) {
@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 	head->size = size;
 	head->start_address = 0;
 	head->end_address = size-1;
-	printf("Allocated %i bytes of memory",size);
+	printf("Allocated %i bytes of memory\n",size);
 	
 	char cmd[100];
 	bool running = true;
@@ -118,9 +118,9 @@ int main(int argc, char *argv[]) {
 			// j += 1;
 		// }
 		//Remove Caps
-		// for (char *cmd_lower = cmd; *cmd_lower; cmd_lower++){
-			// *cmd_lower = tolower(*cmd_lower);
-		// }
+		for (char *cmd_lower = cmd; *cmd_lower; cmd_lower++){
+			*cmd_lower = tolower(*cmd_lower);
+		}
         
 		//displays the current status of the processes
 		if(strstr(cmd,"status")){
