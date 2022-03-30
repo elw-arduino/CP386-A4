@@ -15,6 +15,7 @@ Repository:
 #include <unistd.h>
 #include <ctype.h>
 #include <string.h>
+#include <stdbool.h>
 
 struct Block
 {
@@ -61,6 +62,31 @@ void allocate(char pid[5], int requested) {
 	}
 }
 
+void free(char pid[5]) {
+	struct Block *previous = NULL;
+	struct Block *temp = head;
+	printf("releasing memory for process %c",pid);
+	while(temp != NULL) {
+		if(strcmp(temp->pid,pid) == 0 ) {
+			// Block allocated to the process
+			strcpy(temp->pid,""); // Free the block
+		}
+		if(previous != NULL && strcmp(previous->pid,"") == 0 && strcmp(temp->pid,"") == 0 ) {
+			// Previous block is free so condense them
+			previous->end_address = temp->end_address;
+			previous->size += temp->size; // Update size
+			previous->next = temp->next; // Pop 2nd block from list
+			free(temp); // Free the 2nd block
+			temp = previous->next; // Look at next block
+		}
+		else {
+			previous = temp; // Update reference to previous block
+			temp = temp->next; // Look at next block
+		}
+	}
+	printf("Successfully released memory for process %c",pid);
+}
+
 int main(int argc, char *argv[]) {
 	if(argc < 2){
 		printf("Missing Size\n");
@@ -75,4 +101,43 @@ int main(int argc, char *argv[]) {
 	head->size = size;
 	head->start_address = 0;
 	head->end_address = size-1;
+	printf("Allocated %i bytes of memory",size);
+	
+	char cmd[100];
+	bool running = true;
+	while (running){
+		printf("Enter Command: ");
+		fgets(cmd, 100, stdin);
+		char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
+		int args[4];
+		token = strtok(NULL, " ");
+		int j = 0;
+		while (token != NULL){
+			args[j] = atoi(token);
+			token = strtok(NULL, " ");
+			j += 1;
+		}
+		// Remove Caps
+		for (char *cmd_lower = cmd; *cmd_lower; cmd_lower++){
+			*cmd_lower = tolower(*cmd_lower);
+		}
+        
+		//displays the current status of the processes
+		if(strstr(cmd,"status")){
+			
+		}
+		else if (strstr(cmd, "rq") != NULL) {
+			
+		}
+		else if (strstr(cmd, "rl") != NULL) {
+			
+		}
+		else if (strstr(cmd, "exit") != NULL){
+			printf("Exiting program\n");
+			running= false;
+		}
+		else{
+			printf("Invalid input, use one of RQ, RL, Status, Exit\n");
+		}
+	}
 }
