@@ -27,6 +27,7 @@ struct Block
 };
 
 struct Block *head;
+int globalMax;
 
 void allocate(char pid[5], int requested) {
     
@@ -35,7 +36,7 @@ void allocate(char pid[5], int requested) {
 		return;
 	}
 	struct Block *temp = head;
-	int smallestSize = 999999;
+	int smallestSize = globalMax+1;
 	struct Block *smallestBlock = NULL;
 	while(temp != NULL) {
 		if(strcmp(temp->pid,"") == 0 && temp->size < smallestSize && temp->size >= requested) {
@@ -104,6 +105,7 @@ int main(int argc, char *argv[]) {
 		printf("Size must be greater than 0\n");
 		return 1;
 	}
+	globalMax = size;
 	head = (struct Block *)malloc(sizeof(struct Block));
 	head->size = size;
 	head->start_address = 0;
@@ -115,6 +117,7 @@ int main(int argc, char *argv[]) {
 	while (running){
 		printf("command>");
 		fgets(cmd, 100, stdin);
+		cmd[strcspn(cmd, "\r\n")] = 0; // Remove trailing newline
 		char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
 		char *args[4];
 		token = strtok(NULL, " ");
@@ -136,10 +139,12 @@ int main(int argc, char *argv[]) {
 		}
 		else if (strstr(cmd, "rq") != NULL) {
             //printf("%s\n",args[2]);
-            if(*args[2] == 'B'){
+            if(strcmp(args[2],"b") == 0 || strcmp(args[2],"B") == 0){
                 allocate(args[0],atoi(args[1]));
             }
-            
+            else {
+				printf("Missing Algorithm Specifier\n");
+			}
 		}
 		else if (strstr(cmd, "rl") != NULL) {
 			freeMemory(args[0]);
