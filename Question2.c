@@ -29,6 +29,7 @@ struct Block
 struct Block *head;
 
 void allocate(char pid[5], int requested) {
+    
 	if(requested <= 0) {
 		printf("Size must be positive\n");
 		return;
@@ -91,6 +92,8 @@ void freeMemory(char pid[5]) {
 	printf("Successfully released memory for process %s\n",pid);
 }
 
+
+
 int main(int argc, char *argv[]) {
 	if(argc < 2){
 		printf("Missing Size\n");
@@ -113,12 +116,13 @@ int main(int argc, char *argv[]) {
 		printf("command>");
 		fgets(cmd, 100, stdin);
 		char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
-		char args[3];
+		char *args[4];
 		token = strtok(NULL, " ");
 		int j = 0;
 		while (token != NULL){
-			args[j] = tolower(*token);
+            args[j] = token;
 			token = strtok(NULL, " ");
+            //printf("%d %s\n",j,args[j]);
 			j += 1;
 		}
 		//Remove Caps
@@ -131,9 +135,11 @@ int main(int argc, char *argv[]) {
 			
 		}
 		else if (strstr(cmd, "rq") != NULL) {
-			if(strcmp(args[2], "b") == 0) {
-				allocate(args[0],atoi(args[1]));
-			}
+            //printf("%s\n",args[2]);
+            if(*args[2] == 'B'){
+                allocate(args[0],atoi(args[1]));
+            }
+            
 		}
 		else if (strstr(cmd, "rl") != NULL) {
 			
@@ -146,4 +152,5 @@ int main(int argc, char *argv[]) {
 			printf("Invalid input, use one of RQ, RL, Status, Exit\n");
 		}
 	}
+
 }
