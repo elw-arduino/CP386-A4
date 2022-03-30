@@ -62,10 +62,10 @@ void allocate(char pid[5], int requested) {
 	}
 }
 
-void free(char pid[5]) {
+void freeMemory(char pid[5]) {
 	struct Block *previous = NULL;
 	struct Block *temp = head;
-	printf("releasing memory for process %c",pid);
+	printf("releasing memory for process %s",pid);
 	while(temp != NULL) {
 		if(strcmp(temp->pid,pid) == 0 ) {
 			// Block allocated to the process
@@ -84,7 +84,7 @@ void free(char pid[5]) {
 			temp = temp->next; // Look at next block
 		}
 	}
-	printf("Successfully released memory for process %c",pid);
+	printf("Successfully released memory for process %s",pid);
 }
 
 int main(int argc, char *argv[]) {
@@ -108,19 +108,19 @@ int main(int argc, char *argv[]) {
 	while (running){
 		printf("Enter Command: ");
 		fgets(cmd, 100, stdin);
-		char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
-		int args[4];
-		token = strtok(NULL, " ");
-		int j = 0;
-		while (token != NULL){
-			args[j] = atoi(token);
-			token = strtok(NULL, " ");
-			j += 1;
-		}
-		// Remove Caps
-		for (char *cmd_lower = cmd; *cmd_lower; cmd_lower++){
-			*cmd_lower = tolower(*cmd_lower);
-		}
+		// char *token = strtok(cmd, " "); //removes all white spaces and retrieves only the command
+		// int args[4];
+		// token = strtok(NULL, " ");
+		// int j = 0;
+		// while (token != NULL){
+			// args[j] = atoi(token);
+			// token = strtok(NULL, " ");
+			// j += 1;
+		// }
+		//Remove Caps
+		// for (char *cmd_lower = cmd; *cmd_lower; cmd_lower++){
+			// *cmd_lower = tolower(*cmd_lower);
+		// }
         
 		//displays the current status of the processes
 		if(strstr(cmd,"status")){
