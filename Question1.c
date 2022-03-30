@@ -20,7 +20,7 @@ Repository:
 #include <time.h>
 #include <semaphore.h>
 #include <stdbool.h>
-#include <ctype.h> //For run_cmd
+#include <ctype.h> 
 
 
 
