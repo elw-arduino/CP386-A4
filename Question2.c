@@ -142,7 +142,7 @@ int main(int argc, char *argv[]) {
             
 		}
 		else if (strstr(cmd, "rl") != NULL) {
-			
+			freeMemory(args[0]);
 		}
 		else if (strstr(cmd, "exit") != NULL){
 			printf("Exiting program\n");
