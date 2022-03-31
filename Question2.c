@@ -95,9 +95,9 @@ void freeMemory(char pid[5]) {
 
 void status() {
 	int freeMem = 0;
-	char freeBlocks[500] = "";
+	char freeBlocks[1000] = "";
 	int usedMem = 0;
-	char usedBlocks[500] = "";
+	char usedBlocks[1000] = "";
 	
 	struct Block *temp = head;
 	while(temp != NULL) {
