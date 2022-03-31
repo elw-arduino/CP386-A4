@@ -54,7 +54,7 @@ void allocate(char pid[5], int requested) {
 			// Block is bigger than requested
 			struct Block *newBlock = (struct Block *)malloc(sizeof(struct Block));
 			newBlock->end_address = smallestBlock->end_address; // Copy End address
-			smallestBlock->end_address = smallestBlock->start_address + requested; // Update end address of old block
+			smallestBlock->end_address = smallestBlock->start_address + requested - 1; // Update end address of old block
 			newBlock->start_address = smallestBlock->end_address + 1; // Set start address of new block
 			newBlock->size = free;
 			newBlock->next = smallestBlock->next; // Maintain reference to next block in list
