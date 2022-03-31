@@ -93,7 +93,35 @@ void freeMemory(char pid[5]) {
 	printf("Successfully released memory for process %s\n",pid);
 }
 
-
+void status() {
+	int freeMem = 0;
+	char freeBlocks[500] = "";
+	int usedMem = 0;
+	char usedBlocks[500] = "";
+	
+	struct Block *temp = head;
+	while(temp != NULL) {
+		if(strcmp(temp->pid,"") == 0 ) {
+			// Block is Free
+			char str[200];
+			sprintf(str,"Address [%i:%i] len = %i\n",temp->start_address,temp->end_address,temp->size);
+			freeMem += temp->size;
+			strcat(freeBlocks,str);
+		}
+		else {
+			// Block is used
+			char str[200];
+			sprintf(str,"Address [%i:%i] Process %s\n",temp->start_address,temp->end_address,temp->pid);
+			usedMem += temp->size;
+			strcat(usedBlocks,str);
+		}
+		temp = temp->next;
+	}
+	printf("Partitions [Allocated memory = %i]:\n",usedMem);
+	printf("%s\n",usedBlocks);
+	printf("Holes [Free memory = %i]:\n",freeMem);
+	printf("%s",freeBlocks);
+}
 
 int main(int argc, char *argv[]) {
 	if(argc < 2){
@@ -135,7 +163,7 @@ int main(int argc, char *argv[]) {
         
 		//displays the current status of the processes
 		if(strstr(cmd,"status")){
-			
+			status();
 		}
 		else if (strstr(cmd, "rq") != NULL) {
             //printf("%s\n",args[2]);
@@ -157,5 +185,5 @@ int main(int argc, char *argv[]) {
 			printf("Invalid input, use one of RQ, RL, Status, Exit\n");
 		}
 	}
-
+	return 0;
 }
