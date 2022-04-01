@@ -5,7 +5,7 @@ This repository demonstrates the use of 2 algorithms, Banker's Algorithm (demons
 
 ## Features
 
-**Question1.c:**
+### Question1.c:
 
 **RQ: Request Resource** - Requests resources
 
@@ -27,7 +27,7 @@ This repository demonstrates the use of 2 algorithms, Banker's Algorithm (demons
 
 ```Exit```
 
-**Question2.c:**
+### Question2.c
 
 **RQ: Request Resource** - Requests resources
 
