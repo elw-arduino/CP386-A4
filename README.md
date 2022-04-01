@@ -73,6 +73,11 @@ clean:
 	rm -f $(OBJFILES) $(TARGET) *~ 
 ```
 *Important to note that running Question1.c using this makefile will use the testcase ``` 10 5 7 8 ```. Edit that if you wish to use your own*
+*Important to note that running Question2.c using this makefile will use the testcase ```10000000```. Edit that if you wish to use your own*
+
+- Linux system with GCC complier required to run both files
+- To run question1.c with this makefile, enter ``` make runq1 ``` on command line 
+- To run question2.c with this makefile, enter ``` make runq2 ``` on command line 
 
 ## Screenshots and Tests
 
@@ -149,6 +154,11 @@ When first running the program, with the test case ``` 10000000 ```:
 ```void status() ``` Eric
 
 ```int main(int argc, char *argv[]) ``` Eric, Brian
+
+## About Developers 
+
+- [Brian Ha](https://github.com/Reprodux)
+- [Eric Wildfong](https://github.com/elw-arduino) 
 
 ## License
 
