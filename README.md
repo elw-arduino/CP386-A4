@@ -76,34 +76,55 @@ clean:
 
 ## Screenshots and Tests
 
-**Question1.c (Banker's Algorithm)**
+### Question1.c (Banker's Algorithm)
 - Below will demonstrate output for a set of commands, following those in the sample output seen in the assignment document
 
 When first running the program, with the test case ``` 10 5 7 8 ```:
 
 ![](https://i.imgur.com/f0bLFUJ.png)
 
-RQ - request command:
+**RQ** - request command:
 
 ![](https://i.imgur.com/LnRBGDy.png)
 
-Status - view status:
+**Status** - view status:
 
 ![](https://i.imgur.com/DO0CSj3.png)
 
-Run - Run:
+**Run** - Run:
 
 ![](https://i.imgur.com/hbwJrLZ.png)
+
+**Exit** - exits program:
+
+![](https://i.imgur.com/XyhuHgj.png)
 
 ### Question2.c (Best-Fit Algorithm)
 - Below will demonstrate output for a set of commands, following those in the sample output seen in the assignment document
 
 When first running the program, with the test case ``` 10000000 ```:
 
+![](https://i.imgur.com/ZEHlWi5.png)
+
+**RQ** - request command:
+
+![](https://i.imgur.com/cdHqW0D.png)
+
+**RL** - release command:
+
+![](https://i.imgur.com/TTr70Ty.png)
+
+**Status** - view status:
+
+![](https://i.imgur.com/dWasIWr.png)
+
+**Exit** - exits program:
+
+![](https://i.imgur.com/rxlG3rn.png)
 
 ## Individual Contribution
 
-## Question1.c (Banker's Algorithm)
+### Question1.c (Banker's Algorithm)
 
 ```int customers_on_file(char *fname) ```  Brian
 
@@ -119,7 +140,7 @@ When first running the program, with the test case ``` 10000000 ```:
 
 ```int main(int argc, char *argv[]) ```  Brian, Eric
 
-**Question2.c (Best-Fit Algorithm)**
+### Question2.c (Best-Fit Algorithm)
 
 ```void allocate(char pid[5], int requested) ``` Eric
 
