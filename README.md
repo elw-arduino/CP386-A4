@@ -163,6 +163,7 @@ When first running the program, with the test case ``` 1000000 ```:
 ## License
 
 This project is licensed under the MIT License.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
 
