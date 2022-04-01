@@ -107,9 +107,9 @@ When first running the program, with the test case ``` 10 5 7 8 ```:
 ### Question2.c (Best-Fit Algorithm)
 - Below will demonstrate output for a set of commands, following those in the sample output seen in the assignment document
 
-When first running the program, with the test case ``` 10000000 ```:
+When first running the program, with the test case ``` 1000000 ```:
 
-![](https://i.imgur.com/ZEHlWi5.png)
+![](https://i.imgur.com/k7fyL3k.png)
 
 **RQ** - request command:
 
@@ -117,11 +117,11 @@ When first running the program, with the test case ``` 10000000 ```:
 
 **RL** - release command:
 
-![](https://i.imgur.com/TTr70Ty.png)
+![](https://i.imgur.com/QemHRTj.png)
 
 **Status** - view status:
 
-![](https://i.imgur.com/dWasIWr.png)
+![](https://i.imgur.com/qYsSnZO.png)
 
 **Exit** - exits program:
 
