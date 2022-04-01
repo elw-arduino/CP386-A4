@@ -85,9 +85,19 @@ Run - Run:
 
 ```int valid_resc_request(int args[]) ```  Brian, Eric
 
-```void *execute_thread() ```  Brian, Eric
+```void *execute_thread() ```  Brian
 
-```int resc_release(int args[]) ```  Brian, Eric
+```int resc_release(int args[]) ```  Brian
 
 ```int main(int argc, char *argv[]) ```  Brian, Eric
+
+**Question1.c (Best-Fit Algorithm)**
+
+```void allocate(char pid[5], int requested) ``` Eric
+
+```void freeMemory(char pid[5]) ``` Eric
+
+```void status() ``` Eric
+
+```void status() ``` Eric, Brian
 
