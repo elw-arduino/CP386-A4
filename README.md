@@ -99,5 +99,5 @@ Run - Run:
 
 ```void status() ``` Eric
 
-```void status() ``` Eric, Brian
+```int main(int argc, char *argv[]) ``` Eric, Brian
 
