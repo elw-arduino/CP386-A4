@@ -68,7 +68,7 @@ Question2: Question2.c
 runq1: Question1
 	./Question1 10 5 7 8
 runq2: Question2
-	./Question2
+	./Question2 10000000
 clean:
 	rm -f $(OBJFILES) $(TARGET) *~ 
 ```
@@ -95,11 +95,15 @@ Run - Run:
 
 ![](https://i.imgur.com/hbwJrLZ.png)
 
-**Question2.c (Best-Fit Algorithm)**
+### Question2.c (Best-Fit Algorithm)
+- Below will demonstrate output for a set of commands, following those in the sample output seen in the assignment document
+
+When first running the program, with the test case ``` 10000000 ```:
+
 
 ## Individual Contribution
 
-**Question1.c (Banker's Algorithm)**
+## Question1.c (Banker's Algorithm)
 
 ```int customers_on_file(char *fname) ```  Brian
 
@@ -109,7 +113,7 @@ Run - Run:
 
 ```int valid_resc_request(int args[]) ```  Brian, Eric
 
-```void *execute_thread() ```  Brian
+```void *execute_thread() ```  Brian, Eric
 
 ```int resc_release(int args[]) ```  Brian
 
@@ -124,4 +128,10 @@ Run - Run:
 ```void status() ``` Eric
 
 ```int main(int argc, char *argv[]) ``` Eric, Brian
+
+## License
+
+This project is licensed under the MIT License.
+
+
 
