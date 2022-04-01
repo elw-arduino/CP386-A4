@@ -1,9 +1,11 @@
 # CP386-A4
 
-## Introduction and Features
+## Introduction
 This repository demonstrates the use of 2 algorithms, Banker's Algorithm (demonstrated in Question1.c) and the Best-Fit algorithm (demonstrated in Question2.c)
 
-**Features (Question1.c):**
+## Features
+
+**Question1.c:**
 
 **RQ: Request Resource** - Requests resources
 
@@ -14,11 +16,33 @@ This repository demonstrates the use of 2 algorithms, Banker's Algorithm (demons
 ```RL [int customer_number] [int Resource 1] [int Resource 2] ... [int Resource 4] ```
 
 **Status: Status** - Displays status, prints all arrays and matrices used (available, maximum, allocation, and need)
+
 ```Status```
 
 **Run: Run** - Executes customers as threads in a safe sequence. Each thread requests the resources it needs, releases them, and lets the next thread in the sequence run.
 
 ```Run```
+
+**Exit: Exits Program** - Exits the loop and the program
+
+```Exit```
+
+**Question2.c:**
+
+**RQ: Request Resource** - Requests resources
+
+```RQ <process number> <size> <B> ``` 
+
+*B refers to best-fit
+
+
+**RL: Release Resource** - Release memory that has allocated to a process
+
+```RL <process number/name>```
+
+**Status: Status** - Displays status, used for reporting the status of memory is entered
+
+```Status```
 
 **Exit: Exits Program** - Exits the loop and the program
 
