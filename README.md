@@ -68,7 +68,7 @@ Question2: Question2.c
 runq1: Question1
 	./Question1 10 5 7 8
 runq2: Question2
-	./Question2 10000000
+	./Question2 1000000
 clean:
 	rm -f $(OBJFILES) $(TARGET) *~ 
 ```
